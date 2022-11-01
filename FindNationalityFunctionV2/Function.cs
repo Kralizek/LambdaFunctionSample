@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 using Amazon.Lambda.Core;
 using Kralizek.Lambda;
@@ -11,22 +12,39 @@ namespace FindNationalityFunctionV2;
 
 public class Function : RequestResponseFunction<string, Country[]>
 {
-    protected override void Configure(IConfigurationBuilder builder)
+    protected override void ConfigureServices(IServiceCollection services, IExecutionEnvironment executionEnvironment)
     {
-        // Use this method to register your configuration flow. Exactly like in ASP.NET Core
+        RegisterHandler<FindNationalityHandler>(services);
+
+        // Add registration for HttpClient
+        services.AddHttpClient("Nationality");
+
+        services.AddOptions();
+
+        services.Configure<FindNationalityOptions>(Configuration.GetSection("Options"));
     }
 
     protected override void ConfigureLogging(ILoggingBuilder logging, IExecutionEnvironment executionEnvironment)
     {
-        // Use this method to install logger providers
+        logging.AddLambdaLogger(new LambdaLoggerOptions
+        {
+            IncludeCategory = true,
+            IncludeLogLevel = true,
+            IncludeNewline = true,
+        });
+
+        if (executionEnvironment.IsProduction())
+        {
+            logging.SetMinimumLevel(LogLevel.Warning);
+        }
     }
 
-    protected override void ConfigureServices(IServiceCollection services, IExecutionEnvironment executionEnvironment)
+    protected override void Configure(IConfigurationBuilder builder)
     {
-        // You need this line to register your handler
-        RegisterHandler<FindNationalityHandler>(services);
-
-        // Use this method to register your services. Exactly like in ASP.NET Core
+        builder.AddInMemoryCollection(new Dictionary<string, string>
+        {
+            ["Options:MinimumThreshold"] = "0.05"
+        });
     }
 }
 
@@ -42,5 +60,5 @@ public record Country(
 
 public record FindNationalityOptions
 {
-  public double MinimumThreshold { get; init; }
+    public double MinimumThreshold { get; init; }
 }
