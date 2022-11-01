@@ -5,6 +5,8 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FindNationalityFunction", "FindNationalityFunction\FindNationalityFunction.csproj", "{97066B40-05C0-4B57-A29A-C5C641EA0625}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FindNationalityFunctionV2", "FindNationalityFunctionV2\FindNationalityFunctionV2.csproj", "{702129EA-2DD2-444C-8740-1C79B3A03C39}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{97066B40-05C0-4B57-A29A-C5C641EA0625}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{97066B40-05C0-4B57-A29A-C5C641EA0625}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{97066B40-05C0-4B57-A29A-C5C641EA0625}.Release|Any CPU.Build.0 = Release|Any CPU
+		{702129EA-2DD2-444C-8740-1C79B3A03C39}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{702129EA-2DD2-444C-8740-1C79B3A03C39}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{702129EA-2DD2-444C-8740-1C79B3A03C39}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{702129EA-2DD2-444C-8740-1C79B3A03C39}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
