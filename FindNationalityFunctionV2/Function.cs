@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using Amazon.Lambda.Core;
 using Kralizek.Lambda;
 using Microsoft.Extensions.Configuration;
@@ -8,7 +9,7 @@ using Microsoft.Extensions.Logging;
 
 namespace FindNationalityFunctionV2;
 
-public class Function : RequestResponseFunction<string, string>
+public class Function : RequestResponseFunction<string, Country[]>
 {
     protected override void Configure(IConfigurationBuilder builder)
     {
@@ -23,8 +24,23 @@ public class Function : RequestResponseFunction<string, string>
     protected override void ConfigureServices(IServiceCollection services, IExecutionEnvironment executionEnvironment)
     {
         // You need this line to register your handler
-        RegisterHandler<ToUpperStringRequestResponseHandler>(services);
+        RegisterHandler<FindNationalityHandler>(services);
 
         // Use this method to register your services. Exactly like in ASP.NET Core
     }
+}
+
+public record Response(
+    [property: JsonPropertyName("country")] Country[] Countries,
+    [property: JsonPropertyName("name")] string Name
+);
+
+public record Country(
+    [property: JsonPropertyName("country_id")] string CountryCode,
+    [property: JsonPropertyName("probability")] double Probability
+);
+
+public record FindNationalityOptions
+{
+  public double MinimumThreshold { get; init; }
 }
