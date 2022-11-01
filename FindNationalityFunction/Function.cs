@@ -12,22 +12,37 @@ namespace FindNationality;
 
 public class Function : RequestResponseFunction<string, Country[]>
 {
-    protected override void ConfigureServices(IServiceCollection services, IExecutionEnvironment executionEnvironment)
-    {
-        RegisterHandler<FindNationalityHandler>(services);
-    }
+  protected override void ConfigureServices(IServiceCollection services, IExecutionEnvironment executionEnvironment)
+  {
+    RegisterHandler<FindNationalityHandler>(services);
+
+    // Add registration for HttpClient
+    services.AddHttpClient("Nationality");
+  }
 }
+
 
 public class FindNationalityHandler : IRequestResponseHandler<string, Country[]>
 {
-    private readonly HttpClient http = new HttpClient();
+  private readonly IHttpClientFactory _httpClientFactory;
+  private readonly ILogger<FindNationalityHandler> _logger;
 
-    public async Task<Country[]> HandleAsync(string? input, ILambdaContext context)
-    {
-        var response = await http.GetFromJsonAsync<Response>($"https://api.nationalize.io/?name={input}");
+  public FindNationalityHandler(IHttpClientFactory httpClientFactory, ILogger<FindNationalityHandler> logger)
+  {
+    _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+    _httpClientFactory = httpClientFactory ?? throw new ArgumentNullException(nameof(httpClientFactory));
+  }
 
-        return response?.Countries ?? Array.Empty<Country>();
-    }
+  public async Task<Country[]> HandleAsync(string? input, ILambdaContext context)
+  {
+    var http = _httpClientFactory.CreateClient("Nationality");
+
+    _logger.LogDebug("Finding the nationality of people named {Name}", input);
+
+    var response = await http.GetFromJsonAsync<Response>($"https://api.nationalize.io/?name={input}");
+
+    return response?.Countries ?? Array.Empty<Country>();
+  }
 }
 
 public record Response(
