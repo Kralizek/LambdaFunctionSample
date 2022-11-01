@@ -19,6 +19,21 @@ public class Function : RequestResponseFunction<string, Country[]>
     // Add registration for HttpClient
     services.AddHttpClient("Nationality");
   }
+
+  protected override void ConfigureLogging(ILoggingBuilder logging, IExecutionEnvironment executionEnvironment)
+  {
+    logging.AddLambdaLogger(new LambdaLoggerOptions
+    {
+      IncludeCategory = true,
+      IncludeLogLevel = true,
+      IncludeNewline = true,
+    });
+
+    if (executionEnvironment.IsProduction())
+    {
+      logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Warning);
+    }
+  }
 }
 
 
