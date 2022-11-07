@@ -10,6 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AWSSDK.SimpleNotificationService" Version="3.7.100.9" />
     <PackageReference Include="Kralizek.Lambda.Template" Version="5.0.0" /> 
     <PackageReference Include="Kralizek.Lambda.Template.Sqs" Version="5.0.0" />
   </ItemGroup>
