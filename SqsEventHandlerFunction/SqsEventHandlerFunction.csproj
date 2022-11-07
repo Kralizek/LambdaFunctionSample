@@ -10,9 +10,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AWSSDK.EXtensions.NETCore.Setup" Version="3.7.2" />
     <PackageReference Include="AWSSDK.SimpleNotificationService" Version="3.7.100.9" />
     <PackageReference Include="Kralizek.Lambda.Template" Version="5.0.0" /> 
-    <PackageReference Include="Kralizek.Lambda.Template.Sqs" Version="5.0.0" />
+    <PackageReference Include="Kralizek.Lambda.Template.Sqs" Version="5.0.0" /> 
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="6.0.0" />
   </ItemGroup>
 
 </Project>
