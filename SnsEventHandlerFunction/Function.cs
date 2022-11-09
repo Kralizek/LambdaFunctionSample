@@ -14,5 +14,7 @@ public class Function : EventFunction<SNSEvent>
     protected override void ConfigureServices(IServiceCollection services, IExecutionEnvironment executionEnvironment)
     {
         services.UseNotificationHandler<NotificationMessage, NotificationMessageHandler>();
+
+        services.AddSingleton<INotifier, DummyNotifier>();
     }
 }
